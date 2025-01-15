@@ -33,6 +33,9 @@ body {
 ul{
     list-style: none;
 }
+a:visited{
+    color: blue;
+}
 .section{
     background: var(--bg-black-900);
     min-height: 100vh;
