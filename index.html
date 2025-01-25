@@ -175,7 +175,185 @@
     <script>
         window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
     </script>
-    <script src="js/gochu.js"></script>	
-    <script src="js/nhac.js"></script>
+    <script>
+        var typed = new Typed('.typing', {
+    strings:["Học sinh cấp 3", "Người High-Tech", "Wuwa Player", "Fan Anime", "Genshinbu"],
+    typeSpeed: 100,
+    backSpeed: 60,
+    loop: true,
+})
+// aside menu
+const nav = document.querySelector(".nav"),
+    navList = document.querySelectorAll("li"),
+    totalNavList = navList.length,
+    allSection = document.querySelectorAll(".section"),
+    totalSection = allSection.length;
+    for(let i=0; i<totalNavList; i++){
+        const a = navList[i].querySelector("a");
+        a.addEventListener('click', function() {
+            removeBackSection();
+            for(let j=0; j<totalNavList; j++){
+                if(navList[j].querySelector("a").classList.contains("active")){
+                    addBackSection(j);
+                   // allSection[j].classList.add("back-section");
+                }
+                navList[j].querySelector("a").classList.remove("active");
+            }
+            this.classList.add("active");
+            showSection(this)
+            if(window.innerWidth < 1200){
+                asideSectionTogglerBtn();
+            }
+        })
+    }
+    function removeBackSection(){
+        for(let i=0; i<totalSection; i++){
+            allSection[i].classList.remove("back-section");
+        }
+    }
+    function addBackSection(num){
+        allSection[num].classList.add("back-section");
+    }
+    function showSection(element){
+        for(let i=0; i<totalSection; i++){
+            allSection[i].classList.remove("active");
+        }
+        const taget = element.getAttribute("href").split("#")[1];
+        document.querySelector("#"+taget).classList.add("active");
+
+    }
+    function updateNav(element){
+        for(let i=0; i<totalNavList; i++){
+            navList[i].querySelector("a").classList.remove("active");
+            const target = element.getAttribute("href").split("#")[1];
+            if(target === navList[i].querySelector("a").getAttribute("href").split("#")[1]){
+                navList[i].querySelector("a").classList.add("active");
+            }
+        }
+    }
+    document.querySelector(".hire-me").addEventListener('click', function() {
+        const sectionIndex = this.getAttribute("data-section-index");
+        showSection(this);
+        updateNav(this);
+        removeBackSection();
+        addBackSection(sectionIndex);
+    });
+    const navTogglerBtn = document.querySelector(".nav-toggler"),
+        aside = document.querySelector(".aside");
+        navTogglerBtn.addEventListener("click", () => {
+            asideSectionTogglerBtn();
+        })
+        function asideSectionTogglerBtn(){
+            aside.classList.toggle("open");
+            navTogglerBtn.classList.toggle("open");
+            for(let i=0; i<totalSection; i++){
+                allSection[i].classList.toggle("open");
+            }
+        }
+    </script>	
+    <script>
+        const audioContainer = document.getElementById('audio-container');
+const playBtn = document.getElementById('play');
+const prevBtn = document.getElementById('prev');
+const nextBtn = document.getElementById('next');
+
+const audio = document.getElementById('audio');
+const progress = document.getElementById('progress');
+const progressContainer = document.getElementById('progress-container');
+const title = document.getElementById('title');
+const cover = document.getElementById('cover');
+const files = ['Doushite', 'Bầu trời mới', 'Mẹ yêu con'];
+let fileIndex = 0;
+
+/**
+ * @param {string} file
+ */
+function loadFile(file){
+  audio.src = `audio/${file}.mp3`;
+  cover.src = `img-audio/${file}.jpg`;
+  title.innerText = file;
+}
+loadFile(files[fileIndex]);
+function playFile(){
+  audioContainer.classList.add('play');
+  playBtn.querySelector('i.fas').classList.remove('fa-play');
+  playBtn.querySelector('i.fas').classList.add('fa-pause');
+  
+  audio.play();
+}
+function pauseFile(){
+  audioContainer.classList.remove('play');
+  playBtn.querySelector('i.fas').classList.add('fa-play');
+  playBtn.querySelector('i.fas').classList.remove('fa-pause');
+
+  audio.pause();
+}
+function prevFile(){
+  fileIndex--;
+  if(fileIndex < 0){
+    fileIndex = files.length - 1;
+  }
+  loadFile(files[fileIndex]);
+  playFile();
+}
+function nextFile(){
+  fileIndex++;
+  if(fileIndex > files.length -1){
+    fileIndex ^= fileIndex;
+  }
+  loadFile(files[fileIndex]);
+  playFile();
+}
+
+/**
+ *
+ * @param {*} e
+ */
+function updateProgress(e) {
+  const { duration, currentTime } = e.srcElement;
+  const progressPercent = (currentTime / duration) * 100;
+  progress.style.width = `${progressPercent}%`;
+}
+playBtn.addEventListener('click', () => {
+  (audioContainer.classList.contains('play')) 
+    ? pauseFile() : playFile();
+});
+
+/**
+ * 
+ * @param {Event} e 
+ */
+function updateProgress(e) {
+  const { duration, currentTime } = e.target;
+  const progressPercent = (currentTime / duration) * 100;
+  progress.style.width = `${progressPercent}%`;
+}
+
+/**
+
+ * @param {Event} e 
+ */
+function setProgress(e){
+  const width = this.clientWidth;
+  const clickX = e.offsetX;
+  const duration = audio.duration;
+
+  audio.currentTime = (clickX / width) * duration;
+}
+prevBtn.addEventListener('click', prevFile);
+nextBtn.addEventListener('click', nextFile);
+audio.addEventListener('ended', nextFile);
+audio.addEventListener('timeupdate', updateProgress);
+progressContainer.addEventListener('click', setProgress);
+document.body.addEventListener('keydown', function(event){
+  if(event.code == 'Space'){
+    (audioContainer.classList.contains('play')) 
+      ? pauseFile() : playFile();
+  }
+});
+audio.volume = 0.5;
+
+
+    </script>
 </body>
 </html>
