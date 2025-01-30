@@ -256,15 +256,13 @@ const nav = document.querySelector(".nav"),
 const playBtn = document.getElementById('play');
 const prevBtn = document.getElementById('prev');
 const nextBtn = document.getElementById('next');
-
 const audio = document.getElementById('audio');
 const progress = document.getElementById('progress');
 const progressContainer = document.getElementById('progress-container');
 const title = document.getElementById('title');
 const cover = document.getElementById('cover');
-const files = ['Doushite', 'Bầu trời mới', 'Mẹ yêu con'];
+const files = ['Doushite', 'Bầu trời mới', 'Demon Slayer'];
 let fileIndex = 0;
-
 /**
  * @param {string} file
  */
@@ -277,8 +275,7 @@ loadFile(files[fileIndex]);
 function playFile(){
   audioContainer.classList.add('play');
   playBtn.querySelector('i.fas').classList.remove('fa-play');
-  playBtn.querySelector('i.fas').classList.add('fa-pause');
-  
+  playBtn.querySelector('i.fas').classList.add('fa-pause'); 
   audio.play();
 }
 function pauseFile(){
@@ -304,7 +301,6 @@ function nextFile(){
   loadFile(files[fileIndex]);
   playFile();
 }
-
 /**
  *
  * @param {*} e
@@ -318,7 +314,6 @@ playBtn.addEventListener('click', () => {
   (audioContainer.classList.contains('play')) 
     ? pauseFile() : playFile();
 });
-
 /**
  * 
  * @param {Event} e 
@@ -330,7 +325,6 @@ function updateProgress(e) {
 }
 
 /**
-
  * @param {Event} e 
  */
 function setProgress(e){
@@ -352,8 +346,6 @@ document.body.addEventListener('keydown', function(event){
   }
 });
 audio.volume = 0.5;
-
-
     </script>
 </body>
 </html>
